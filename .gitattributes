@@ -1,0 +1,6 @@
+# Same line endings on Mac and Windows, so git does not show every line as changed
+* text=auto eol=lf
+*.jpg binary
+*.JPG binary
+*.png binary
+*.npz binary

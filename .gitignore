@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# MAC 
+.DS_Store
+
+
+# Project 2: Data2 IS uploaded. Never upload results or PDFs
+features/
+trees/
+results/
+*.npz
+*.pkl
+*.pdf
