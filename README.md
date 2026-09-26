@@ -1,5 +1,7 @@
 # Vocabulary Tree Image Retrieval
 
+Repository: https://github.com/fammad/vocab-tree-image-retrieval-EQ2425
+
 We will do visual search built from scratch with SIFT features, a vocabulary tree (hierarchical k-means) and TF-IDF scoring. Given one photo of a building, the system finds the same building among 50. EQ2425 Analysis and Search of Visual Data, KTH, Project 2. Deadline October 5, 2026.
 
 ## Setup
@@ -33,28 +35,27 @@ winget install -e --id GitHub.cli
 ```
 Accept the prompts. Then **close VS Code completely and open it again**, so the terminal finds the new programs.
 
-**Check it (both):**
-```
-git --version
-gh --version
-```
-Then check Python. On Mac:
-```
-python3.11 -c "import platform; print(platform.python_version(), platform.machine())"
-```
-It must print `3.11.x arm64`. If it says `x86_64`, see Common problems.
+### 2. Clone the repository
 
-On Windows:
+Accept the GitHub invite in your email first. Then clone in one of two ways.
+
+**With the GitHub Desktop app:** open the **File** menu, click **Clone Repository**, open the **URL** tab and paste:
 ```
-py -3.11 --version
+https://github.com/fammad/vocab-tree-image-retrieval-EQ2425
 ```
-It must print `Python 3.11.x`.
+Set **Local Path** to your Documents folder and click **Clone**.
 
-Also install the **Python** extension by Microsoft in VS Code (Extensions tab on the left, search "Python").
+**With the VS Code terminal:**
+```
+cd ~/Documents
+git clone https://github.com/fammad/vocab-tree-image-retrieval-EQ2425.git
+```
+The repository is private, so the terminal needs your GitHub login. Run this once before cloning and choose **GitHub.com**, **HTTPS**, **Yes**, **Login with a web browser**:
+```
+gh auth login
+```
+Don't type your GitHub password into the terminal when git asks, because GitHub rejects it.
 
-### 2. Log in to GitHub and clone the repository
-
-With Github Desktop App
 The images are included (about 450 MB), so this takes a few minutes. Don't rename, edit or delete anything in `Data2`, so we all run on identical files.
 
 Now open the project: **File** menu, **Open Folder**, choose `Documents/vocab-tree-image-retrieval-EQ2425`. Open a new terminal. It now starts inside the project folder.
