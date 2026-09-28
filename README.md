@@ -81,7 +81,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-`requirements.txt` holds the exact package versions we all use. Don't install other versions of these packages. Its last line, `-e .`, also installs our own code from `src/vocabtree`, so scripts and notebooks can import it from any folder. Run this command again whenever `requirements.txt` changes.
+`requirements.txt` holds the exact package versions we all use. Don't install other versions of these packages. Run this command again whenever `requirements.txt` changes.
 
 ### 5. Connect VS Code to the environment
 
@@ -91,7 +91,7 @@ VS Code then uses this Python for the Run button, and every new terminal activat
 
 ### 6. Set up notebooks
 
-Notebooks save their images inside the file. One run of `notebooks/01_features.ipynb` makes it about 3 MB instead of 8 KB, and two people editing outputs cause merge conflicts. `nbstripout` removes the outputs automatically when you commit. Your own copy keeps them. Run once, with `(.venv)` showing:
+Notebooks save their images inside the file. One run of `project2.ipynb` makes it several MB instead of about 10 KB. `nbstripout` removes the outputs automatically when you commit. Your own copy keeps them. Run once, with `(.venv)` showing:
 ```
 nbstripout --install
 ```
@@ -107,45 +107,35 @@ The last line must say `ALL OK`. If it says `FAIL`, the line tells you what is w
 
 ## Project code
 
-### Folders
-
-| Folder or file | What's in it |
+| File | What it is |
 |---|---|
-| `src/vocabtree/` | All project code: `extract.py` (section 2), `vocab_tree.py` (section 3), `plot_utils.py` (saves figures) |
-| `notebooks/` | Notebooks that import the code and draw figures |
-| `figures/` | Figures for the report, written by the notebooks, committed |
-| `Data2/` | The images, committed, don't edit |
-| `features/` | Created by the extraction, not committed |
-| `check_env.py`, `requirements.txt`, `pyproject.toml` | Setup |
+| `project2.ipynb` | The whole project: sections 2, 3 and 4, with results and figures |
+| `extract.py` | Section 2: SIFT feature extraction |
+| `vocab_tree.py` | Section 3: `hi_kmeans(data, b, depth)` and the leaf data for TF-IDF |
+| `figures/` | Figures for the report, saved by the notebook |
+| `Data2/` | The images, don't edit |
+| `check_env.py`, `requirements.txt` | Setup |
 
-Run scripts from the repository folder with `python -m`, for example `python -m vocabtree.extract`. Import in notebooks with `from vocabtree.extract import load_features`.
+`features/` appears after the first run. It is not uploaded.
 
-### Feature extraction (section 2),
+### How to run
 
-Run once after cloning. It takes about 30 seconds and writes `features/server.npz` and `features/client.npz`. Git doesn't upload these files, so everyone runs it themselves.
-```
-python -m vocabtree.extract
-```
+1. Once, in the terminal: `python extract.py` (about 30 s, creates `features/`).
+2. Open `project2.ipynb`, choose the `.venv` kernel, click **Run All**. Section 3 builds the trees, about 45 s.
 
-Results for the report:
+### Results so far
+| | Images | Features in total | Mean per object |
+|---|---|---|---|
+| Server (database) | 149 | 536,769 | 10,735 |
+| Client (queries) | 50 | 171,140 | 3,423 |
 
-| | Images | Features in total | Mean per image | Mean per object |
-|---|---|---|---|---|
-| Server (database) | 149 | 536,769 | 3,602 | 10,735 |
-| Client (queries) | 50 | 171,140 | 3,423 | 3,423 |
+| Tree | Leaves | Distances per descriptor, tree | Flat vocabulary |
+|---|---|---|---|
+| b=4, depth=3 | 64 | 12 | 64 |
+| b=4, depth=5 | 1,024 | 20 | 1,024 |
+| b=5, depth=7 | about 75,000 | 35 | 78,125 |
 
-### Vocabulary tree (section 3), first version
-
-```
-python -m vocabtree.vocab_tree
-```
-Builds the three trees from the task and prints their size. Takes about 45 seconds.
-
-### Notebooks
-
-Code that computes things lives in `src/vocabtree/`. Notebooks in `notebooks/` only import from it and draw figures. A new section gets a new file in `src/vocabtree/` (for example `query.py`) and a new notebook (`02_...`, `03_...`).
-
-- Before committing, run the notebook from top to bottom (**Run All**) so it works for the next person.
+Section 4 is open.
 
 ## Every time you work on the project
 
