@@ -4,3 +4,6 @@
 *.JPG binary
 *.png binary
 *.npz binary
+# Notebooks: strip outputs (images) before commit, needs `nbstripout --install` once per person
+*.ipynb filter=nbstripout
+*.ipynb diff=ipynb

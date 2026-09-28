@@ -228,3 +228,5 @@ results/
 *.npz
 *.pkl
 *.pdf
+# ...except report figures, so everyone has the same ones
+!figures/*.pdf

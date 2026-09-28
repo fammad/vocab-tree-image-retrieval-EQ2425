@@ -14,16 +14,6 @@ To open the terminal in VS Code: **Terminal** menu, **New Terminal**. On Mac thi
 
 **Mac.** First check whether Homebrew is installed:
 ```
-brew --version
-```
-If you get `command not found`, install Homebrew. It asks for your Mac password, and nothing shows while you type it.
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-Then install the tools:
-```
 brew install python@3.11 git gh
 ```
 
@@ -99,7 +89,15 @@ Press **Cmd+Shift+P** (Mac) or **Ctrl+Shift+P** (Windows), type **Python: Select
 
 VS Code then uses this Python for the Run button, and every new terminal activates `.venv` by itself.
 
-### 6. Check that everything works
+### 6. Set up notebooks
+
+Notebooks save their images inside the file. One run of `01_features.ipynb` makes it about 3 MB instead of 8 KB, and two people editing outputs cause merge conflicts. `nbstripout` removes the outputs automatically when you commit. Your own copy keeps them. Run once, with `(.venv)` showing:
+```
+nbstripout --install
+```
+When you open a notebook in VS Code, click **Select Kernel** in the top right and choose `.venv`. If VS Code asks to install the Jupyter extension, accept.
+
+### 7. Check that everything works
 
 ```
 python check_env.py
@@ -107,19 +105,35 @@ python check_env.py
 
 The last line must say `ALL OK`. If it says `FAIL`, the line tells you what is wrong. Fix it and run the check again.
 
+## Project code
+
+### Feature extraction (section 2),
+
+Run once after cloning. It takes about 30 seconds and writes `features/server.npz` and `features/client.npz`. Git doesn't upload these files, so everyone runs it themselves.
+```
+python extract.py
+```
+
+Results for the report:
+
+| | Images | Features in total | Mean per image | Mean per object |
+|---|---|---|---|---|
+| Server (database) | 149 | 536,769 | 3,602 | 10,735 |
+| Client (queries) | 50 | 171,140 | 3,423 | 3,423 |
+
+### Vocabulary tree (section 3), first version
+
+```
+python vocab_tree.py
+```
+Builds the three trees from the task and prints their size. Takes about 45 seconds.
+
+### Notebooks
+
+Code that computes things lives in `.py` files (`extract.py`, later `vocab_tree.py`, `query.py`). Notebooks only import from them and draw figures.
+
+- Before committing, run the notebook from top to bottom (**Run All**) so it works for the next person.
+
 ## Every time you work on the project
 
 Open the project folder in VS Code and open a new terminal. Check that the line starts with `(.venv)`. If it doesn't, run the activate line from step 3.
-
-Get everyone's latest work:
-```
-git switch main
-git pull
-```
-
-Save and upload your work when something runs:
-```
-git add .
-git commit -m "short description of what works now"
-git push -u origin extract
-```
