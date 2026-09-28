@@ -81,7 +81,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-`requirements.txt` holds the exact package versions we all use. Don't install other versions of these packages.
+`requirements.txt` holds the exact package versions we all use. Don't install other versions of these packages. Its last line, `-e .`, also installs our own code from `src/vocabtree`, so scripts and notebooks can import it from any folder. Run this command again whenever `requirements.txt` changes.
 
 ### 5. Connect VS Code to the environment
 
@@ -91,7 +91,7 @@ VS Code then uses this Python for the Run button, and every new terminal activat
 
 ### 6. Set up notebooks
 
-Notebooks save their images inside the file. One run of `01_features.ipynb` makes it about 3 MB instead of 8 KB, and two people editing outputs cause merge conflicts. `nbstripout` removes the outputs automatically when you commit. Your own copy keeps them. Run once, with `(.venv)` showing:
+Notebooks save their images inside the file. One run of `notebooks/01_features.ipynb` makes it about 3 MB instead of 8 KB, and two people editing outputs cause merge conflicts. `nbstripout` removes the outputs automatically when you commit. Your own copy keeps them. Run once, with `(.venv)` showing:
 ```
 nbstripout --install
 ```
@@ -107,11 +107,24 @@ The last line must say `ALL OK`. If it says `FAIL`, the line tells you what is w
 
 ## Project code
 
+### Folders
+
+| Folder or file | What's in it |
+|---|---|
+| `src/vocabtree/` | All project code: `extract.py` (section 2), `vocab_tree.py` (section 3), `plot_utils.py` (saves figures) |
+| `notebooks/` | Notebooks that import the code and draw figures |
+| `figures/` | Figures for the report, written by the notebooks, committed |
+| `Data2/` | The images, committed, don't edit |
+| `features/` | Created by the extraction, not committed |
+| `check_env.py`, `requirements.txt`, `pyproject.toml` | Setup |
+
+Run scripts from the repository folder with `python -m`, for example `python -m vocabtree.extract`. Import in notebooks with `from vocabtree.extract import load_features`.
+
 ### Feature extraction (section 2),
 
 Run once after cloning. It takes about 30 seconds and writes `features/server.npz` and `features/client.npz`. Git doesn't upload these files, so everyone runs it themselves.
 ```
-python extract.py
+python -m vocabtree.extract
 ```
 
 Results for the report:
@@ -124,13 +137,13 @@ Results for the report:
 ### Vocabulary tree (section 3), first version
 
 ```
-python vocab_tree.py
+python -m vocabtree.vocab_tree
 ```
 Builds the three trees from the task and prints their size. Takes about 45 seconds.
 
 ### Notebooks
 
-Code that computes things lives in `.py` files (`extract.py`, later `vocab_tree.py`, `query.py`). Notebooks only import from them and draw figures.
+Code that computes things lives in `src/vocabtree/`. Notebooks in `notebooks/` only import from it and draw figures. A new section gets a new file in `src/vocabtree/` (for example `query.py`) and a new notebook (`02_...`, `03_...`).
 
 - Before committing, run the notebook from top to bottom (**Run All**) so it works for the next person.
 
