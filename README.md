@@ -109,33 +109,28 @@ The last line must say `ALL OK`. If it says `FAIL`, the line tells you what is w
 
 | File | What it is |
 |---|---|
-| `project2.ipynb` | The whole project: sections 2, 3 and 4, with results and figures |
-| `extract.py` | Section 2: SIFT feature extraction |
-| `vocab_tree.py` | Section 3: `hi_kmeans(data, b, depth)` and the leaf data for TF-IDF |
-| `figures/` | Figures for the report, saved by the notebook |
+| `project2.ipynb` | The whole project: sections 2, 3 and 4 |
 | `Data2/` | The images, don't edit |
 | `check_env.py`, `requirements.txt` | Setup |
 
-`features/` appears after the first run. It is not uploaded.
-
 ### How to run
 
-1. Once, in the terminal: `python extract.py` (about 30 s, creates `features/`).
-2. Open `project2.ipynb`, choose the `.venv` kernel, click **Run All**. Section 3 builds the trees, about 45 s.
+Open `project2.ipynb`, choose the `.venv` kernel, click **Run All**. It takes about 2 minutes (SIFT on full-size images, then three trees).
 
 ### Results so far
-| | Images | Features in total | Mean per object |
-|---|---|---|---|
-| Server (database) | 149 | 536,769 | 10,735 |
-| Client (queries) | 50 | 171,140 | 3,423 |
 
-| Tree | Leaves | Distances per descriptor, tree | Flat vocabulary |
-|---|---|---|---|
-| b=4, depth=3 | 64 | 12 | 64 |
-| b=4, depth=5 | 1,024 | 20 | 1,024 |
-| b=5, depth=7 | about 75,000 | 35 | 78,125 |
+| | Value |
+|---|---|
+| 2(a) average SIFT features per database object | 8,940.58 |
+| 2(b) average SIFT features per query object | 3,000.3 |
 
-Section 4 is open.
+| Tree | Leaves | Leaves with idf = 0 | Leaves with df = 1 |
+|---|---|---|---|
+| b=4, depth=3 | 64 | 63 | 0 |
+| b=4, depth=5 | 1,024 | about 150 | 0 |
+| b=5, depth=7 | about 70,000 | 0 | about 29,000 |
+
+Section 4 (querying and recall) is in progress: the TODO cells in the notebook.
 
 ## Every time you work on the project
 
